@@ -1,4 +1,4 @@
-package file;
+package io;
 
 public class StringMethod1 {
 
