@@ -17,7 +17,7 @@ public class MyBufferedReader {
         this.r=r;
     }
     //定义read（）方法，一次读一个字符
-    public char read() throws IOException{
+    public int read() throws IOException{
         //判断缓冲区中是否还有数据
         if(count==0){
             //调用流对象的read(char[])方法，从硬盘上读取数据
@@ -27,7 +27,7 @@ public class MyBufferedReader {
         }
         //硬盘文件中已经没有数据可读
         if(count==-1){
-            return (char) -1;
+            return  -1;
         }
         else{
             char cha=bufferArray[index++];
@@ -37,10 +37,27 @@ public class MyBufferedReader {
         }
         
     }
-    
-    
-    
-    
-    
-    
+   /*
+    *一次读取文件中的一行数据 
+    */
+    public String readline() throws IOException{
+        StringBuilder sb=new StringBuilder();
+        int temp;
+        while((temp=this.read())!=-1){
+            if(temp=='\r'){
+                continue;
+            }
+            if(temp=='\n'){
+                return sb.toString();
+            }
+            sb.append((char)temp);
+        }
+        //考虑到不是每一个文本文档都会以换行符结束，所以读到最后可能会有残留的最后一句字符串
+       if(sb.length()!=0)
+           return sb.toString();
+        return null;
+    }
+    public void close() throws IOException{
+        r.close();
+    }
 }
